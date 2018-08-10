@@ -9,14 +9,30 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+import Vue from 'vue';
+import App from './App';
+import router from './router';
+import store from './store/store';
+import axios from 'axios';
+import VueAxios from 'vue-axios';
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.use(VueAxios, axios);
+
+Vue.config.productionTip = false;
+
+Vue.filter('fixedone', function (value) {
+    return value ? value.toFixed(1) : 0
+});
+
+const token = localStorage.getItem('user-token');
+if (token) {
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+}
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    router,
+    store,
+    components: { App },
+    template: '<App/>'
 });
