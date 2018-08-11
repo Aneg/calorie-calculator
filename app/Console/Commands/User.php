@@ -4,6 +4,12 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
+/**
+ * Команда для создания нового пользователя
+ *
+ * Class User
+ * @package App\Console\Commands
+ */
 class User extends Command
 {
     /**
@@ -37,14 +43,23 @@ class User extends Command
      */
     public function handle()
     {
-        // TODO : Прикрутить валидацию и вынести её отдельно.
-        $user           = new \App\Models\User();
-        $user->name     = $this->argument('name');
-        $user->email    = $this->argument('email');
-        $user->password = bcrypt($this->argument('password'));
+        $validator = \Validator::make($this->arguments(), [
+            'name'     => 'required|string|max:100',
+            'email'    => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|max:16',
+        ]);
+
+        if ($validator->fails()) {
+            $this->error('Пользователь не добавлен.');
+            $this->table([array_keys((array)$validator->errors()->messages())], $validator->errors()->messages());
+            return;
+        }
+
+        $user = new \App\Models\User($this->arguments());
+        $user->password = \Hash::make($user->password);
 
         if ($user->save()) {
-            $this->table(['Имя', 'email', 'Пароль'], [[$user->name, $user->email, $user->password]]);
+            $this->table(['Имя', 'email', 'Пароль'], [[$user->name, $user->email, $this->argument('password')]]);
         } else {
             $this->error('Пользователь не добавлен.');
         }

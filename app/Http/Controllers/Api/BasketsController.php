@@ -20,6 +20,8 @@ class BasketsController extends ApiController
     }
 
     /**
+     * Добавление Новой карзины вместе с содержимым
+     *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      * @throws \Throwable
@@ -54,9 +56,17 @@ class BasketsController extends ApiController
         return $this->setResponse($basket, ['full' => true], 201);
     }
 
+    /**
+     * Обновление названия и содержимого карзины
+     *
+     * @param Request $request
+     * @param $basketId
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request, $basketId)
     {
-        /** @var Basket $role */
+        /** @var Basket $basket */
         $basket = Basket::findOrFail($basketId);
 
         $this->validate($request,[

@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Gate;
+use App\Models\Basket;
+use App\Models\Product;
+use App\Policies\BasketPolicy;
+use App\Policies\ProductPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -14,6 +17,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'App\Model' => 'App\Policies\ModelPolicy',
+        Basket::class => BasketPolicy::class,
+        Product::class => ProductPolicy::class,
     ];
 
     /**
