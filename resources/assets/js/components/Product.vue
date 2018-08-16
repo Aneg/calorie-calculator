@@ -118,7 +118,7 @@ export default {
   },
   methods: {
     save () {
-      this.disableSubmit = true
+      this.disableSubmit = true;
       this.$store.dispatch(this.productId ? 'updateProduct' : 'addProduct', this.product).then(
         (result) => {
           this.disableSubmit = false;

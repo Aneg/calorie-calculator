@@ -1,0 +1,5 @@
+FROM node:8.6-alpine
+
+RUN apk add  --update --no-cache libpng-dev
+
+WORKDIR /var/www

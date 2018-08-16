@@ -11,6 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+$vue_routers = [
+    '/products/{id?}/edit', '/baskets/{id?}/edit',
+    '/products', '/baskets', '/baskets/create', '/products/create',
+];
+
+foreach ($vue_routers as $path) {
+    Route::get($path, function () {
+        return view('index');
+    });
+}
+

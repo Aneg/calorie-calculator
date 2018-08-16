@@ -37,7 +37,6 @@ class ProductController extends ApiController
     {
         /** @var Product $role */
         $product = $this->permissionsModel = Product::findOrFail($productId);
-//        $this->checkPermissions('update');
 
         $this->validate($request,[
             'name' => ['required', 'string', 'max:255'],
